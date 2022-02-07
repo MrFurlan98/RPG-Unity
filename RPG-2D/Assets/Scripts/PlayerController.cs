@@ -8,11 +8,20 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private float speed;
+    public string transitionAreaName;
+
+    public static PlayerController instance;
     // Start is called before the first frame update
     void Start()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
