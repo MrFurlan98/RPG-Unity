@@ -11,13 +11,19 @@ public class PlayerController : MonoBehaviour
     public string transitionAreaName;
 
     public static PlayerController instance;
+
+    private Vector3 bottomLeft;
+    private Vector3 topRight;
     // Start is called before the first frame update
     void Start()
     {
         if (instance == null)
             instance = this;
         else
-            Destroy(gameObject);
+        {
+            if(instance != this)
+                Destroy(gameObject);
+        }
 
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -39,5 +45,15 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("LastMoveX", Input.GetAxisRaw("Horizontal"));
             animator.SetFloat("LastMoveY", Input.GetAxisRaw("Vertical"));
         }
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeft.x, topRight.x),
+                                        Mathf.Clamp(transform.position.y, bottomLeft.y, topRight.y),
+                                        transform.position.z);
+    }
+
+    public void SetBounds(Vector3 BL, Vector3 TR)
+    {
+        bottomLeft = BL + new Vector3(1, 1, 0)/2;
+        topRight = TR + new Vector3(-1, -1, 0)/2;
     }
 }
