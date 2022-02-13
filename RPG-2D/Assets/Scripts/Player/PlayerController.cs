@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 bottomLeft;
     private Vector3 topRight;
+
+    public bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +35,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * speed;
+        if (canMove)
+            rb2d.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * speed;
+        else
+            rb2d.velocity = Vector2.zero;
+
         animator.SetFloat("MoveX", rb2d.velocity.x);
         animator.SetFloat("MoveY", rb2d.velocity.y);
 
@@ -42,8 +48,11 @@ public class PlayerController : MonoBehaviour
            Input.GetAxisRaw("Vertical") == 1 ||
            Input.GetAxisRaw("Vertical") == -1)
         {
-            animator.SetFloat("LastMoveX", Input.GetAxisRaw("Horizontal"));
-            animator.SetFloat("LastMoveY", Input.GetAxisRaw("Vertical"));
+            if (canMove)
+            {
+                animator.SetFloat("LastMoveX", Input.GetAxisRaw("Horizontal"));
+                animator.SetFloat("LastMoveY", Input.GetAxisRaw("Vertical"));
+            }
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeft.x, topRight.x),
