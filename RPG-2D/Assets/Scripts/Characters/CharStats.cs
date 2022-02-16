@@ -17,7 +17,7 @@ public class CharStats : MonoBehaviour
     public int maxMP = 30;
     public int[] mpLvlBonus;
     public int strength;
-    public int defense;
+    public int defence;
     public int wpnPwr;
     public int armrPwr;
     public string equippedWpn;
@@ -54,7 +54,7 @@ public class CharStats : MonoBehaviour
                 if (charLevel % 2 == 0)
                     strength++;
                 else
-                    defense++;
+                    defence++;
 
                 maxHP = Mathf.FloorToInt(maxHP * 1.05f);
                 currentHP = maxHP;
