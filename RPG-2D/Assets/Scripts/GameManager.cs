@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
 
     public CharStats[] charStats;
 
-    public bool gameMenuOpen, dialogActive, fadingBetweenAreas;
+    public bool gameMenuOpen, dialogActive, fadingBetweenAreas, shopActive;
 
     public string[] itemsHeld;
     public int[] numberOfItems;
     public Item[] referenceItems;
+
+    public int currentGold;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameMenuOpen || dialogActive || fadingBetweenAreas)
+        if (gameMenuOpen || dialogActive || fadingBetweenAreas || shopActive)
             PlayerController.instance.canMove = false;
         else
             PlayerController.instance.canMove = true;
@@ -128,5 +130,17 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError(itemToRemove + " Not Found");
         }
+    }
+
+    public bool IsItemInInventory(string itemToCheck)
+    {
+        for (int i = 0; i < itemsHeld.Length; i++)
+        {
+            if (itemsHeld[i] == itemToCheck)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
